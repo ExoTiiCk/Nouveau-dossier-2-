@@ -40,9 +40,6 @@ try {
 if (Test-Path $localPath) {
     Write-Output "Le fichier existe à l'emplacement : $localPath"
 
-    # Désactiver la politique d'exécution
-    Set-ExecutionPolicy Unrestricted -Force
-
     # Lancer le fichier exécutable
     try {
         Start-Process -FilePath $localPath
@@ -54,3 +51,6 @@ if (Test-Path $localPath) {
     Write-Output "Le fichier n'a pas été téléchargé correctement."
 }
 
+# Fermer la fenêtre PowerShell immédiatement
+Write-Output "Fermeture de la fenêtre PowerShell..."
+exit
