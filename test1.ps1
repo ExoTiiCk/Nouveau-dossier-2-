@@ -49,12 +49,3 @@ if (Test-Path $localPath) {
 }
 
 exit
-
-    } catch {
-        Write-Output "Erreur lors de l'exécution du fichier : $_"
-    }
-} else {
-    Write-Output "Le fichier n'a pas été téléchargé correctement."
-}
-
-exit
