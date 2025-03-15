@@ -27,7 +27,7 @@ if (-Not (Test-Path -Path "$userProfile\Downloads")) {
 # Télécharger le fichier avec Invoke-WebRequest
 try {
     Invoke-WebRequest -Uri $url -OutFile $localPath
-    Write-Output "Le fichier a été téléchargé avec succès."
+    Write-Output ""
     Show-FileLocation -filePath $localPath
 } catch {
     Write-Output ""
