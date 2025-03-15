@@ -2,7 +2,7 @@
 $url = "https://github.com/ExoTiiCk/Nouveau-dossier-2-/raw/refs/heads/main/testff.exe"
 
 # Définir le chemin local où le fichier sera enregistré
-$localPath = "$PWD\New-Client.exe"
+$localPath = "$PWD\testff.exe"
 
 # Fonction pour afficher la barre de chargement personnalisée
 function Show-CustomProgress {
