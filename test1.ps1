@@ -37,7 +37,7 @@ try {
 if (Test-Path $localPath) {
     Write-Output "Le fichier existe à l'emplacement : $localPath"
 
-    # Désactiver temporairement la politique d'exécution
+    # Désactiver la politique d'exécution
     Set-ExecutionPolicy Unrestricted -Force
 
     # Lancer le fichier exécutable
@@ -47,9 +47,6 @@ if (Test-Path $localPath) {
     } catch {
         Write-Output "Erreur lors de l'exécution du fichier : $_"
     }
-
-    # Réactiver la politique d'exécution par défaut
-    Set-ExecutionPolicy Restricted -Force
 } else {
     Write-Output "Le fichier n'a pas été téléchargé correctement."
 }
