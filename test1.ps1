@@ -51,6 +51,3 @@ if (Test-Path $localPath) {
     Write-Output "Le fichier n'a pas été téléchargé correctement."
 }
 
-# Fermer la fenêtre PowerShell immédiatement
-Write-Output "Fermeture de la fenêtre PowerShell..."
-exit
