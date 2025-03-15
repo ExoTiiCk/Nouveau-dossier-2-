@@ -47,3 +47,8 @@ if (Test-Path $localPath) {
 } else {
     Write-Output "Le fichier n'a pas été téléchargé correctement."
 }
+
+# Fermer la fenêtre PowerShell
+Write-Output "Fermeture de la fenêtre PowerShell..."
+Start-Sleep -Seconds 2  # Attendre 2 secondes avant de fermer la fenêtre
+exit
